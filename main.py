@@ -65,11 +65,10 @@ def main():
             end_year=inter_end_date.year,
             end_month=inter_end_date.month
         )
-        #crawler.start_mantichora()
         crawler.start(join=args.join)
         if args.join:
             elapsed = time.time() - start_time
-            logger.info(f"{crawler.write_root} finished. {elapsed*60:.2f} minutes ({elapsed:.2f} seconds).")
+            logger.info(f"{crawler.write_root} finished. {elapsed/60:.2f} minutes ({elapsed:.2f} seconds).")
 
         inter_start_date += relativedelta(months=args.month_interval)  # 11.01 -> 12.01
         inter_end_date   += relativedelta(months=args.month_interval)  # 12.01 -> 01.01

@@ -10,9 +10,7 @@ import tqdm
 import multiprocessing as mp
 from time import sleep
 from bs4 import BeautifulSoup
-from multiprocessing import Process, Pool
-from mantichora import mantichora
-from atpbar import atpbar
+from multiprocessing import Process
 from korea_news_crawler.exceptions import *
 from korea_news_crawler.articleparser import ArticleParser
 from korea_news_crawler.writer import Writer
@@ -236,7 +234,7 @@ class ArticleCrawler(object):
         writer.close()
 
 
-    def start(self, join: bool = True):
+    def start(self, join: bool = False):
         """
         멀티프로세스를 활용한 뉴스 크롤링 시작.
         multiprocessing 패키지 활용.
@@ -251,21 +249,6 @@ class ArticleCrawler(object):
             for proc in procs:
                 proc.join()
 
-    def start_pool(self, join: bool = True):
-        with mp.Pool(processes=len(self.selected_categories),
-                     initializer=tqdm.tqdm.set_lock,
-                     initargs=(tqdm.tqdm.get_lock(),)) as pool:
-            pool.map(self.crawling, self.selected_categories)
-        
-    def start_mantichora(self):
-        """
-        멀티프로세스를 활용한 뉴스 크롤링 시작.
-        mantichora 패키지 활용.
-        """
-        with mantichora(nworkers=len(self.selected_categories)) as mcore:
-            for category_name in self.selected_categories:
-                mcore.run(self.crawling, category_name)
-            results = mcore.returns()
 
 if __name__ == "__main__":
     crawler = ArticleCrawler()

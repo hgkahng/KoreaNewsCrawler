@@ -1,9 +1,9 @@
 echo "Crawling..."
+YEAR=1996
 python main.py \
-    --categories 정치 경제 사회 생활문화 IT과학 세계 \
-    --start_year 2020 \
+    --categories 정치 \
+    --start_year $YEAR \
     --start_month 1 \
-    --end_year 2020 \
-    --end_month 12 \
-    --join
+    --end_year $YEAR \
+    --end_month 12
 echo "Finished."
